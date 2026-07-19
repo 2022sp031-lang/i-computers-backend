@@ -2,6 +2,9 @@ import { isObjectIdOrHexString } from "mongoose";
 import User from "../models/User.js"
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 export async function createUser(req, res) {
     try {
@@ -55,7 +58,7 @@ export async function loginUser(req, res) {
                     image: user.image
                 }
 
-                const token = jwt.sign(payload, "i-computersbatch10", {expiresIn: "24h"});
+                const token = jwt.sign(payload, process.env.JWT_SECRET, {expiresIn: "24h"});
 
                 res.json(
                     {
