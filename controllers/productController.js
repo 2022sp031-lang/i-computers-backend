@@ -45,6 +45,7 @@ export async function createProduct(req, res) {
         );
 
         await newProduct.save()
+        console.log("Product created successfully.")
 
         res.status(200).json(
             {
