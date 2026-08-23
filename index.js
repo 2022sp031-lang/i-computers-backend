@@ -10,7 +10,7 @@ dotenv.config()
 
 const app = express();
 const port = 3000;
-//const mongodbURI = "mongodb://admin:1234@ac-lmxtron-shard-00-00.6wtz3py.mongodb.net:27017,ac-lmxtron-shard-00-01.6wtz3py.mongodb.net:27017,ac-lmxtron-shard-00-02.6wtz3py.mongodb.net:27017/?ssl=true&replicaSet=atlas-dz88og-shard-0&authSource=admin&appName=Cluster0";
+
 const mongodbURI = process.env.MONGO_URI;
 
 app.use(express.json())
