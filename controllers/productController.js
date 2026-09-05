@@ -85,6 +85,7 @@ export async function getAllProducts(req, res) {
             const products = await Product.find({ isAvailable: true });
 
             res.json(products)
+            console.log("Product fetching successfull")
         }
 
     } catch (error) {
@@ -173,7 +174,7 @@ export async function getProduct(req, res) {
                 }
             )
         }else {
-            if(product.isAvailabel) {
+            if(product.isAvailable) {
                 res.json(product)
             }else {
                 if(isAdmin(req)) {
