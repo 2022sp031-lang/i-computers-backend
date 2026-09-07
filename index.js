@@ -5,6 +5,7 @@ import authenticateUser from './middlewares/authontication.js';
 import productRouter from './routers/productRouter.js';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import orderRouter from './routers/orderRouter.js';
 
 dotenv.config()
 
@@ -20,6 +21,7 @@ app.use(authenticateUser)
 
 app.use('/api/users', userRouter)
 app.use('/api/products', productRouter)
+app.use('/api/orders', orderRouter)
 
 mongoose.connect(mongodbURI).then(
     ()=> {
