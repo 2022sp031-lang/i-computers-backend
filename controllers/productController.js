@@ -24,7 +24,7 @@ export async function createProduct(req, res) {
                     message: "This product is already exist."
                 }
             )
-            return
+            return;
         }
 
         const newProduct = new Product(
@@ -104,6 +104,7 @@ export async function deleteProduct(req, res) {
                 message: "Access denied. Admins only."
             }
         )
+        return;
     }
 
     try {
@@ -133,6 +134,7 @@ export async function updateProduct(req, res) {
                 message: "Access denied. Admins only."
             }
         )
+        return;
     }
 
     try {
@@ -152,6 +154,10 @@ export async function updateProduct(req, res) {
             stock: req.body.stock
         })
 
+        res.json({
+            message: "Product updated successfully."
+        });
+
     } catch (error) {
         res.status(500).json(
             {
@@ -161,25 +167,25 @@ export async function updateProduct(req, res) {
     }
 }
 
-export async function getProduct(req, res) {
+export async function getProductById(req, res) {
     try {
         const product = await Product.findOne({
             productId: req.params.productId
         })
 
-        if(product == null) {
+        if (product == null) {
             res.status(404).json(
                 {
                     message: "Product not found."
                 }
             )
-        }else {
-            if(product.isAvailable) {
+        } else {
+            if (product.isAvailable) {
                 res.json(product)
-            }else {
-                if(isAdmin(req)) {
+            } else {
+                if (isAdmin(req)) {
                     res.json(product)
-                }else {
+                } else {
                     res.status(403).json(
                         {
                             message: "Access denied. Admin only."
@@ -196,4 +202,24 @@ export async function getProduct(req, res) {
             }
         )
     }
-} 
+}
+
+export async function searchProducts(req, res) {
+    try {
+        const query = req.params.query;
+        const products = await Product.find({
+            $or: [
+                { name: { $regex: query, $options: "i" } },
+                { description: { $regex: query, $options: "i" } },
+                { altNames: { $elemMatch: { $regex: query, $options: "i" } } }
+            ]
+        })
+        res.json(products)
+
+
+    } catch (error) {
+        res.status(500).json({
+            message: "Error searching products"
+        })
+    }
+}
