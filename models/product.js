@@ -14,7 +14,7 @@ const productSchema = new mongoose.Schema(
         },
 
         altNames: {
-            type: String,
+            type: [String],
             required: false,
             default: []
         },

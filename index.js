@@ -3,17 +3,25 @@ import mongoose from 'mongoose';
 import userRouter from './routers/userRouter.js';
 import authenticateUser from './middlewares/authontication.js';
 import productRouter from './routers/productRouter.js';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import orderRouter from './routers/orderRouter.js';
+
+dotenv.config()
 
 const app = express();
 const port = 3000;
-const mongodbURI = "mongodb://admin:1234@ac-lmxtron-shard-00-00.6wtz3py.mongodb.net:27017,ac-lmxtron-shard-00-01.6wtz3py.mongodb.net:27017,ac-lmxtron-shard-00-02.6wtz3py.mongodb.net:27017/i-computers?ssl=true&replicaSet=atlas-dz88og-shard-0&authSource=admin&appName=Cluster0";
+
+const mongodbURI = process.env.MONGO_URI;
 
 app.use(express.json())
+app.use(cors())
 
 app.use(authenticateUser)
 
-app.use('/users', userRouter)
-app.use('/products', productRouter)
+app.use('/api/users', userRouter)
+app.use('/api/products', productRouter)
+app.use('/api/orders', orderRouter)
 
 mongoose.connect(mongodbURI).then(
     ()=> {
