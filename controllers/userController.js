@@ -1,4 +1,3 @@
-import { isObjectIdOrHexString } from "mongoose";
 import User from "../models/User.js"
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
@@ -201,7 +200,7 @@ export async function googleLogin(req, res) {
             const token = jwt.sign(
                 {
                     email: user.email,
-                    firstName: user.fisrtName,
+                    firstName: user.firstName,
                     lastName: user.lastName,
                     isAdmin: user.isAdmin,
                     isBlocked: user.isBlocked,
